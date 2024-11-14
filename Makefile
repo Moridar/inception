@@ -1,16 +1,29 @@
-all : up
+all:
+	if ! grep -q "bsyvasal.42.fr" /etc/hosts; then \
+		echo "127.0.0.1 bsyvasal.42.fr" >> /etc/hosts; \
+	fi
+	if ! grep -q "www.bsyvasal.42.fr" /etc/hosts; then \
+		echo "127.0.0.1 www.bsyvasal.42.fr" >> /etc/hosts; \
+	fi
+	mkdir -p /home/bsyvasal/data/mariadb-data
+	mkdir -p /home/bsyvasal/data/wordpress-data
+	docker-compose -f srcs/docker-compose.yml build
+	docker-compose -f srcs/docker-compose.yml up -d
+	
+clean:
+	docker-compose -f srcs/docker-compose.yml down --rmi all -v
 
-up : 
-	@docker-compose -f ./srcs/docker-compose.yml up -d
+fclean: clean
+	rm -rf /home/bsyvasal/data/mariadb-data
+	rm -rf /home/bsyvasal/data/wordpress-data
+	docker system prune -f
 
-down : 
-	@docker-compose -f ./srcs/docker-compose.yml down
+re: fclean all
 
-stop : 
-	@docker-compose -f ./srcs/docker-compose.yml stop
+up:
+	docker-compose -f srcs/docker-compose.yml up -d
 
-start : 
-	@docker-compose -f ./srcs/docker-compose.yml start
+down:
+	docker-compose -f srcs/docker-compose.yml down
 
-status : 
-	@docker ps
+.PHONY: all clean fclean re up down

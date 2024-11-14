@@ -1,15 +1,34 @@
-FROM debian:buster
+FROM alpine:3.18
 
-RUN apt-get update && apt-get install -y php-fpm php-mysql wget tar \
-    && wget https://wordpress.org/latest.tar.gz \
-    && mkdir -p /var/www/html \
-    && tar -xzf latest.tar.gz -C /var/www/html \
-    && rm latest.tar.gz
+# Create user nginx and add to primary and secondary group nginx (create if it doesn't exist)
+RUN addgroup -S nginx && \
+	adduser -S -G nginx -g nginx nginx
 
-RUN mkdir -p /run/php
+RUN apk update && \
+	apk add --no-cache \
+	php81 \
+	php81-fpm \
+	php81-cgi \
+	php81-phar \
+	php81-json \
+	php81-mysqli \
+	php81-curl \
+	php81-iconv \
+	curl \
+	wget \
+	composer \
+	bash \
+	mariadb-client
 
-COPY conf/php.ini /usr/local/etc/php/
-
+# Listening port
 EXPOSE 9000
 
-CMD ["php-fpm7.3", "-F"]
+# Create and copy paths and confs to cont
+RUN mkdir -p /run/php/ /var/www/html/wordpress/
+
+COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
+
+COPY ./tools/script.sh /
+RUN chmod +x script.sh
+
+ENTRYPOINT ["sh", "/script.sh"]

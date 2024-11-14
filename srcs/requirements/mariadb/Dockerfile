@@ -1,12 +1,16 @@
-FROM debian:buster
+FROM alpine:3.18
 
-RUN apt-get update && apt-get install -y mariadb-server
+RUN apk update && \
+	apk add --no-cache \
+	mariadb \
+	mariadb-client
 
-# Copy custom MariaDB configuration file (optional)
-COPY conf/my.cnf /etc/mysql/my.cnf
-
-# Expose port 3306 for MariaDB
 EXPOSE 3306
 
-# Start MariaDB
-CMD ["mysqld"]
+COPY conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
+RUN chmod 644 /etc/my.cnf.d/mariadb-server.cnf
+
+COPY ./tools/script.sh /tmp/script.sh
+RUN chmod +x /tmp/script.sh
+
+ENTRYPOINT ["sh", "/tmp/script.sh"]
