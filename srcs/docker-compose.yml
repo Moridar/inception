@@ -23,7 +23,7 @@ services:
     ngnix:
         container_name: ngnix-cont
         build: ./requirements/nginx
-        image: ngnix
+        image: ngnix:2.7
         ports:
             - "443:443"
         depends_on:
@@ -39,7 +39,7 @@ services:
     wordpress:
         container_name: wordpress-cont
         build: ./requirements/wordpress
-        image: wordpress
+        image: wordpress:2.7
         depends_on:
             - mariadb
         volumes:
@@ -53,7 +53,7 @@ services:
     mariadb:
         container_name: mariadb-cont
         build: ./requirements/mariadb
-        image: mariadb
+        image: mariadb:2.7
         volumes:
             - mariadb:/var/lib/mysql
         env_file: .env
