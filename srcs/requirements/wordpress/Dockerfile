@@ -6,14 +6,14 @@ RUN addgroup -S nginx && \
 
 RUN apk update && \
 	apk add --no-cache \
-	php83 \
-	php83-fpm \
-	php83-cgi \
-	php83-phar \
-	php83-json \
-	php83-mysqli \
-	php83-curl \
-	php83-iconv \
+	php81 \
+	php81-fpm \
+	php81-cgi \
+	php81-phar \
+	php81-json \
+	php81-mysqli \
+	php81-curl \
+	php81-iconv \
 	curl \
 	wget \
 	composer \
@@ -26,7 +26,7 @@ EXPOSE 9000
 # Create and copy paths and confs to cont
 RUN mkdir -p /run/php/ /var/www/html/wordpress/
 
-COPY conf/www.conf /etc/php83/php-fpm.d/www.conf
+COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
 
 COPY ./tools/script.sh /
 RUN chmod +x script.sh
