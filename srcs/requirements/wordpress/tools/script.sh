@@ -28,6 +28,9 @@ wget -q https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.pha
 # Make it executable
 chmod +x /usr/local/bin/wp
 
+#update WP
+wp cli update
+
 # DL WP using the CLI
 wp core download --allow-root
 
@@ -78,4 +81,4 @@ chown -R nginx:nginx /var/www/html/wordpress
 chmod -R 755 /var/www/html/wordpress
 
 # Fire up PHP-FPM (-F to keep in foreground and avoid recalling script)
-php-fpm81 -F
+php-fpm83 -F

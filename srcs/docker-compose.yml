@@ -51,7 +51,7 @@ services:
     mariadb:
         container_name: mariadb-cont
         build: ./requirements/mariadb
-        image: mariadb:latest
+        image: mariadb
         volumes:
             - mariadb:/var/lib/mysql
         env_file: .env
