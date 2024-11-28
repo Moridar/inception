@@ -20,7 +20,7 @@ SHOW DATABASES;
 EOF
 
 # Set working dir
-cd /var/www/html/wordpress/
+cd /var/www/html/
 
 # Download WP cli
 wget -q https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O /usr/local/bin/wp
@@ -29,15 +29,17 @@ wget -q https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.pha
 chmod +x /usr/local/bin/wp
 
 # DL WP using the CLI
+echo "Downloading WordPress core..."
 wp core download --allow-root
 
 # Create WordPress database config
+echo "Creating WordPress database config..."
 wp config create \
 	--dbname=$WP_DB_NAME \
 	--dbuser=$WP_DB_USER \
 	--dbpass=$WP_DB_PWD \
 	--dbhost=$MYSQL_HOST \
-	--path=/var/www/html/wordpress/ \
+	--path=/var/www/html/ \
 	--force
 
 # Install WordPress and feed db config
@@ -49,7 +51,7 @@ wp core install \
 	--admin_email=$WP_ADMIN_EMAIL \
 	--allow-root \
 	--skip-email \
-	--path=/var/www/html/wordpress/
+	--path=/var/www/html/
 
 # Create WordPress user
 wp user create \
@@ -72,10 +74,10 @@ wp option update siteurl "https://$DOMAIN_NAME" --allow-root
 wp option update home "https://$DOMAIN_NAME" --allow-root
 
 # Transfer ownership to the user
-chown -R nginx:nginx /var/www/html/wordpress
+chown -R nginx:nginx /var/www/html/
 
 # Full permissions for owner, read/exec to others
-chmod -R 755 /var/www/html/wordpress
+chmod -R 755 /var/www/html/
 
 # Fire up PHP-FPM (-F to keep in foreground and avoid recalling script)
 php-fpm81 -F
