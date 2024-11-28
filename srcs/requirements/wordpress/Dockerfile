@@ -1,4 +1,4 @@
-FROM alpine:3.18.9
+FROM alpine:3.19.4
 
 # Create user nginx and add to primary and secondary group nginx (create if it doesn't exist)
 RUN addgroup -S nginx && \
@@ -8,11 +8,15 @@ RUN apk update && \
 	apk add --no-cache \
 	php81 \
 	php81-fpm \
-	php81-cgi \
-	php81-phar \
-	php81-json \
 	php81-mysqli \
+	php81-json \
 	php81-curl \
+	php81-phar \
+	php81-dom \
+	php81-xml \
+	php81-mbstring \
+	php81-session \
+	php81-cgi \
 	php81-iconv \
 	curl \
 	wget \

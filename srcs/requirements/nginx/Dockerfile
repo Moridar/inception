@@ -1,5 +1,5 @@
 # Use VM Alpine version as base image
-FROM alpine:3.18.9
+FROM alpine:3.19.4
 
 # Install NGINX and SSL
 RUN apk update && \
