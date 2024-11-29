@@ -12,14 +12,9 @@ RUN apk update && apk add --no-cache \
 	php81-mysqli \
 	php81-mbstring \
 	php81-json \
-	php81-session \
 	php81-gd \
-	php81-iconv \
 	php81-xml \
-	php81-simplexml \
 	php81-zip \
-	php81-tokenizer \
-	php81-dom \
 	mariadb-client
 
 # Listening port
@@ -29,7 +24,7 @@ EXPOSE 9000
 RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # Create and copy paths and confs to cont
-RUN mkdir -p /run/php/ /var/www/html/wordpress/
+RUN mkdir -p /run/php/ /var/www/html
 
 COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
 
